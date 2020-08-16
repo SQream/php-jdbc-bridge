@@ -20,11 +20,11 @@ This is a Java ServerSocket that can be operated from PHP code. The Java code th
 
 `cd java && ./build.sh && cd ..`
 
-- Copy the 2 jar files created above to the repo root folder:
+- Copy the 2 jar files created above to the repo's root folder:
 
 ` cp java/lib/pjbridge.jar java/lib/commons-daemon-1.2.2.jar . `
 
-- Copy SQream JDBC jar to the same location:
+- Copy SQream JDBC jar to the same location (This repo's root folder):
 
 ` cp /path/to/sqream-jdbc-4.2.1.jar .`
 
@@ -36,7 +36,7 @@ This is a Java ServerSocket that can be operated from PHP code. The Java code th
 
 `php check.php`
 
-- Bonus - to install a recent stable version of php on ubuntu:
+- To install a recent stable version of php on ubuntu:
 
 ```
 sudo apt install software-properties-common
@@ -87,21 +87,13 @@ Roundtrip example (`check.php`):
 
 ```php
 <?php
-    // set_include_path(get_include_path() . PATH_SEPARATOR . $'');
     require "PJBridge.php";  // Should be in the same folder as this eample (Originally under php folder)
 
-    $dbHost = "localhost";
-    $dbName = "master";
-    $dbPort = "5000";
-    $dbUser = "sqream";
-    $dbPass = "sqream";
-
-    $connStr = "jdbc:Sqream://${dbHost}:${dbPort}/${dbName};user=${dbUser};password=${dbPass}";
-    // java -cp .:lib/sqream-jdbc-4.2.1.jar:lib/pjbridge.jar:lib/commons-daemon-1.0.15.jar Server com.sqream.jdbc.SQDriver 5000
-
     $conn = new PJBridge();
+    [$dbHost, $dbPort, $dbName, $dbUser, $dbPass] = ["localhost", "5000", "master", "sqream", "sqream"];
 
     // Connect
+    $connStr = "jdbc:Sqream://${dbHost}:${dbPort}/${dbName};user=${dbUser};password=${dbPass}";
     $result = $conn->connect($connStr, $dbUser, $dbPass);
     if(!$result){
         die("Failed to connect");
