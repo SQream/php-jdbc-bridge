@@ -35,6 +35,7 @@ public class ServerCommands {
     
     private ServerThread serverThread;
     private Connection conn = null;
+    PreparedStatement ps;
     private Hashtable results = new Hashtable();
     
     /** Creates a new instance of ServerCommands */
@@ -78,30 +79,30 @@ public class ServerCommands {
             
             try {
                 
-                PreparedStatement st = conn.prepareStatement(cmd[1]);
-                st.setFetchSize(1);
+                ps = conn.prepareStatement(cmd[1]);
+                ps.setFetchSize(1);
                 
                 for (int i = 2; i < cmd.length; i ++) {
                     
                     try {
                         
-                        st.setDouble(i - 1, Double.parseDouble(cmd[i]));
+                        ps.setDouble(i - 1, Double.parseDouble(cmd[i]));
                         
                     } catch (NumberFormatException e) {
                         
-                        st.setString(i - 1, cmd[i]);
+                        ps.setString(i - 1, cmd[i]);
                     }
                 }
                 
-                if (st.execute()) {
+                if (ps.execute()) {
                     
                     String id = Utils.makeUID();
-                    results.put(id, st.getResultSet());
+                    results.put(id, ps.getResultSet());
                     serverThread.write("ok", id);
                     
                 } else {
-                    
-                    serverThread.write("ok", st.getUpdateCount());
+                    serverThread.write("ok", ps.getUpdateCount());
+                    ps.close(); // If no resultset - closing statement
                 }
                 
             } catch (SQLException ex) {
@@ -112,7 +113,7 @@ public class ServerCommands {
             
         } else {
            
-            Utils.log("error", "Unexpected error encountered");
+            Utils.log("error", "Unexpected error encountered in exec()");
             serverThread.write("err");
         }
     }
@@ -154,13 +155,13 @@ public class ServerCommands {
                 
             } else {
                
-                Utils.log("error", "Unexpected error encountered");
+                Utils.log("error", "Unexpected error encountered in fetch_array() resultSet");
                 serverThread.write("err");
             }
             
         } else {
            
-            Utils.log("error", "Unexpected error encountered");
+            Utils.log("error", "Unexpected error encountered in fetch_array()");
             serverThread.write("err");
         }
     }
@@ -182,13 +183,13 @@ public class ServerCommands {
                 
             } else {
                
-                Utils.log("error", "Unexpected error encountered");
+                Utils.log("error", "Unexpected error encountered in free_result() resultSet");
                 serverThread.write("err");
             }
             
         } else {
            
-            Utils.log("error", "Unexpected error encountered");
+            Utils.log("error", "Unexpected error encountered in free_result()");
             serverThread.write("err");
         }
     }
