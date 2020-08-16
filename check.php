@@ -1,6 +1,6 @@
 <?php
     // set_include_path(get_include_path() . PATH_SEPARATOR . $'');
-    require "PJBridge.php";
+    require "PJBridge.php";  // Should be in the same folder as this eample (Originally under php folder)
 
     $dbHost = "localhost";
     $dbName = "master";
@@ -23,13 +23,12 @@
     $cursor = $conn->exec("create or replace table test (x int)");
 
     // Insert   
-    $cursor2 = $conn->exec("insert into test values (5), (6)");
+    $cursor = $conn->exec("insert into test values (5), (6)");
 
-    
-    $cursor3 = $conn->exec("select * from test");
-    while($row = $conn->fetch_array($cursor3)){
+    // Get data back
+    $cursor = $conn->exec("select * from test");
+    while($row = $conn->fetch_array($cursor)){
         print_r($row);
     }
-    $conn->free_result($cursor3);
-    //
+    $conn->free_result($cursor);
 ?>
