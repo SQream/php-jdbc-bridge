@@ -2,7 +2,7 @@
 
 Fork from [JCotton](https://github.com/JCotton1123/php-jdbc-bridge)'s bridge.
 
-This is a java ServerSocket that can be operated from PHP code. The java code than performs JDBC operations, and returns results to the calling PHP code.
+This is a Java ServerSocket that can be operated from PHP code. The Java code than performs JDBC operations, and returns results to the calling PHP code.
 
 ## Requirements
 
