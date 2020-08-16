@@ -2,15 +2,47 @@
 
 Fork from [JCotton](https://github.com/JCotton1123/php-jdbc-bridge)'s bridge.
 
-The java component runs as a service which accepts socket requests from 
-the PHP component allowing the transfer of request and response between PHP 
-and the JDBC database. 
+This is a java ServerSocket that can be operated from PHP code. The java code than performs JDBC operations, and returns results to the calling PHP code.
 
 ## Requirements
 
 * Java 1.8+
 * PHP 5.3+
 * A JDBC driver
+
+## Quick start for SQream users
+
+- Clone this repo and go to it's folder:
+
+`git clone https://github.com/SQream/php-jdbc-bridge && cd php-jdbc-bridge`
+
+- Build the java bridge file, which also downloads a dependency (`apache-commons`):
+`cd java && ./build.sh && cd ..`
+
+- Copy the 2 jar files created above to the repo root folder:
+` cp java/lib/pjbridge.jar java/lib/commons-daemon-1.2.2.jar . `
+
+- Copy SQream JDBC jar to the same location:
+` cp /path/to/sqream-jdbc-4.2.1.jar .`
+
+- Start the bridge to allow calling JDBC from PHP code:
+
+``` java -cp .:sqream-jdbc-4.1.jar:pjbridge.jar:commons-daemon-1.0.15.jar Server com.sqream.jdbc.SQDriver 4444 ```
+
+- Run the complementary sample check (Assuming SQreamd is up on the local machine):
+
+`php check.php`
+
+- Bonus - to install a recent stable version of php on ubuntu:
+
+```
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+sudo apt install php7.4
+```
+
+
 
 ## Build (Java Service)
 
