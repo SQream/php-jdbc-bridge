@@ -1,19 +1,11 @@
 <?php
-    // set_include_path(get_include_path() . PATH_SEPARATOR . $'');
     require "PJBridge.php";  // Should be in the same folder as this eample (Originally under php folder)
 
-    $dbHost = "localhost";
-    $dbName = "master";
-    $dbPort = "5000";
-    $dbUser = "sqream";
-    $dbPass = "sqream";
-
-    $connStr = "jdbc:Sqream://${dbHost}:${dbPort}/${dbName};user=${dbUser};password=${dbPass}";
-    // java -cp .:lib/sqream-jdbc-4.2.1.jar:lib/pjbridge.jar:lib/commons-daemon-1.0.15.jar Server com.sqream.jdbc.SQDriver 5000
-
     $conn = new PJBridge();
+    [$dbHost, $dbPort, $dbName, $dbUser, $dbPass] = ["localhost", "5000", "master", "sqream", "sqream"];
 
     // Connect
+    $connStr = "jdbc:Sqream://${dbHost}:${dbPort}/${dbName};user=${dbUser};password=${dbPass}";
     $result = $conn->connect($connStr, $dbUser, $dbPass);
     if(!$result){
         die("Failed to connect");
