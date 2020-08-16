@@ -81,9 +81,7 @@ Example for sqream, with all jars in the root folder of the repo:
 
 
 
-### PHP
-
-Roundtrip example (`check.php`):
+### Example usage from PHP
 
 ```php
 <?php
