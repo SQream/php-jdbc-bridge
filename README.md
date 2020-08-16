@@ -17,12 +17,15 @@ This is a java ServerSocket that can be operated from PHP code. The java code th
 `git clone https://github.com/SQream/php-jdbc-bridge && cd php-jdbc-bridge`
 
 - Build the java bridge file, which also downloads a dependency (`apache-commons`):
+
 `cd java && ./build.sh && cd ..`
 
 - Copy the 2 jar files created above to the repo root folder:
+
 ` cp java/lib/pjbridge.jar java/lib/commons-daemon-1.2.2.jar . `
 
 - Copy SQream JDBC jar to the same location:
+
 ` cp /path/to/sqream-jdbc-4.2.1.jar .`
 
 - Start the bridge to allow calling JDBC from PHP code:
