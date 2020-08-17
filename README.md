@@ -1,14 +1,43 @@
 # PHP-JDBC Bridge
 
-Fork from [JCotton](https://github.com/JCotton1123/php-jdbc-bridge)'s bridge.
-
-This is a Java ServerSocket that can be operated from PHP code. The Java code than performs JDBC operations, and returns results to the calling PHP code.
+This is a Java ServerSocket that can be operated from PHP code. The Java code than performs JDBC operations, and returns results to the calling PHP code. Forked from [JCotton](https://github.com/JCotton1123/php-jdbc-bridge)'s bridge.
 
 ## Requirements
 
 * Java 1.8+
 * PHP 5.3+
 * A JDBC driver
+
+## Example usage from PHP
+
+```php
+<?php
+    require "PJBridge.php";  // Should be in the same folder as this eample (Originally under php folder)
+
+    $conn = new PJBridge();
+    [$dbHost, $dbPort, $dbName, $dbUser, $dbPass] = ["localhost", "5000", "master", "sqream", "sqream"];
+
+    // Connect
+    $connStr = "jdbc:Sqream://${dbHost}:${dbPort}/${dbName};user=${dbUser};password=${dbPass}";
+    $result = $conn->connect($connStr, $dbUser, $dbPass);
+    if(!$result){
+        die("Failed to connect");
+    }       
+
+    // Create table
+    $cursor = $conn->exec("create or replace table test (x int)");
+
+    // Insert   
+    $cursor = $conn->exec("insert into test values (5), (6)");
+
+    // Get data back
+    $cursor = $conn->exec("select * from test");
+    while($row = $conn->fetch_array($cursor)){
+        print_r($row);
+    }
+    $conn->free_result($cursor);
+?>
+```
 
 ## Quick start for SQream users
 
@@ -78,38 +107,3 @@ where the lib directory contains the php-jdbc jar, the commons-daemon jar and yo
 Example for sqream, with all jars in the root folder of the repo:
 
 ``` java -cp .:sqream-jdbc-4.1.jar:pjbridge.jar:commons-daemon-1.0.15.jar Server com.sqream.jdbc.SQDriver 4444 ```
-
-
-
-### PHP
-
-Roundtrip example (`check.php`):
-
-```php
-<?php
-    require "PJBridge.php";  // Should be in the same folder as this eample (Originally under php folder)
-
-    $conn = new PJBridge();
-    [$dbHost, $dbPort, $dbName, $dbUser, $dbPass] = ["localhost", "5000", "master", "sqream", "sqream"];
-
-    // Connect
-    $connStr = "jdbc:Sqream://${dbHost}:${dbPort}/${dbName};user=${dbUser};password=${dbPass}";
-    $result = $conn->connect($connStr, $dbUser, $dbPass);
-    if(!$result){
-        die("Failed to connect");
-    }       
-
-    // Create table
-    $cursor = $conn->exec("create or replace table test (x int)");
-
-    // Insert   
-    $cursor = $conn->exec("insert into test values (5), (6)");
-
-    // Get data back
-    $cursor = $conn->exec("select * from test");
-    while($row = $conn->fetch_array($cursor)){
-        print_r($row);
-    }
-    $conn->free_result($cursor);
-?>
-```
