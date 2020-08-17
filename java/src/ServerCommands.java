@@ -75,25 +75,18 @@ public class ServerCommands {
      */
     public void exec(String[] cmd) {
         
+        Utils.log("Command: ", String.join(" ", cmd));
+        Utils.log("Command length: ", String.valueOf(cmd.length));
+
         if (conn != null && cmd.length >= 2) {
             
             try {
                 
                 ps = conn.prepareStatement(cmd[1]);
                 ps.setFetchSize(1);
-                
-                for (int i = 2; i < cmd.length; i ++) {
-                    
-                    try {
-                        
-                        ps.setDouble(i - 1, Double.parseDouble(cmd[i]));
-                        
-                    } catch (NumberFormatException e) {
-                        
-                        ps.setString(i - 1, cmd[i]);
-                    }
-                }
-                
+                if (cmd.length > 2)
+                    ps.setQueryTimeout(Integer.parseInt(cmd[2]));
+                Utils.log("Query timeout: ", String.valueOf(ps.getQueryTimeout()));
                 if (ps.execute()) {
                     
                     String id = Utils.makeUID();

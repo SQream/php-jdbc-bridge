@@ -79,7 +79,7 @@ class PJBridge {
 		}
 	}
 
-	public function exec($query) {
+	public function exec($query, $timeout=0) {
 
 		$cmd_a = array('exec', $query);
 
