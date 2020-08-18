@@ -20,6 +20,7 @@
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -36,6 +37,7 @@ public class ServerCommands {
     private ServerThread serverThread;
     private Connection conn = null;
     PreparedStatement ps;
+    Statement stmt;
     private Hashtable results = new Hashtable();
     
     /** Creates a new instance of ServerCommands */
@@ -82,21 +84,21 @@ public class ServerCommands {
             
             try {
                 
-                ps = conn.prepareStatement(cmd[1]);
-                ps.setFetchSize(1);
+                stmt = conn.createStatement();
+                stmt.setFetchSize(1);
                 if (cmd.length > 2) {
-                    ps.setQueryTimeout(Integer.parseInt(cmd[2]));
+                    stmt.setQueryTimeout(Integer.parseInt(cmd[2]));
                 }
-                Utils.log("Query timeout: ", String.valueOf(ps.getQueryTimeout()));
-                if (ps.execute()) {
+                Utils.log("Query timeout: ", String.valueOf(stmt.getQueryTimeout()));
+                if (stmt.execute(cmd[1])) {
                     
                     String id = Utils.makeUID();
-                    results.put(id, ps.getResultSet());
+                    results.put(id, stmt.getResultSet());
                     serverThread.write("ok", id);
                     
                 } else {
-                    serverThread.write("ok", ps.getUpdateCount());
-                    ps.close(); // If no resultset - closing statement
+                    serverThread.write("ok", stmt.getUpdateCount());
+                    stmt.close(); // If no resultset - closing statement
                 }
                 
             } catch (SQLException ex) {
