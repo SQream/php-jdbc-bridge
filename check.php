@@ -27,3 +27,4 @@
     // Check timeout
     $cursor = $conn->exec("select sleep(10)", 3);
 ?>
+
