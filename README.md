@@ -5,7 +5,7 @@ This is a Java ServerSocket that can be operated from PHP code. The Java code th
 ## Requirements
 
 * Java 1.8+
-* PHP 5.3+
+* PHP 7.4+
 * A JDBC driver
 
 ## Example usage from PHP
