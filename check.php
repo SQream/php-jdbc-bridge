@@ -23,4 +23,7 @@
         print_r($row);
     }
     $conn->free_result($cursor);
+
+    // Check timeout
+    $cursor = $conn->exec("select sleep(10)", 3);
 ?>

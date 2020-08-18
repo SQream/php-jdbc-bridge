@@ -84,8 +84,9 @@ public class ServerCommands {
                 
                 ps = conn.prepareStatement(cmd[1]);
                 ps.setFetchSize(1);
-                if (cmd.length > 2)
+                if (cmd.length > 2) {
                     ps.setQueryTimeout(Integer.parseInt(cmd[2]));
+                }
                 Utils.log("Query timeout: ", String.valueOf(ps.getQueryTimeout()));
                 if (ps.execute()) {
                     
