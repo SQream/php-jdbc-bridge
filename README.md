@@ -36,7 +36,12 @@ This is a Java ServerSocket that can be operated from PHP code. The Java code th
         print_r($row);
     }
     $conn->free_result($cursor);
+
+    // Check timeout
+    $cursor = $conn->exec("select sleep(10)", 3);
 ?>
+
+
 ```
 
 ## Quick start for SQream users
