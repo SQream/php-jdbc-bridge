@@ -50,13 +50,13 @@ This is a Java ServerSocket that can be operated from PHP code. The Java code th
 
 `git clone https://github.com/SQream/php-jdbc-bridge && cd php-jdbc-bridge`
 
-- Build the java bridge file, which also downloads a dependency (`apache-commons`):
+- Build the java bridge file:
 
-`cd java && ./build.sh && cd ..`
+`cd java && ./quick_build.sh && cd ..`
 
-- Copy the 2 jar files created above to the repo's root folder:
+- Copy the jar file created above to the repo's root folder:
 
-` cp java/lib/pjbridge.jar java/lib/commons-daemon-1.2.2.jar . `
+` cp java/lib/pjbridge.jar . `
 
 - Copy SQream JDBC jar to the same location (This repo's root folder):
 
@@ -64,7 +64,7 @@ This is a Java ServerSocket that can be operated from PHP code. The Java code th
 
 - Start the bridge to allow calling JDBC from PHP code:
 
-``` java -cp .:sqream-jdbc-4.1.jar:pjbridge.jar:commons-daemon-1.0.15.jar Server com.sqream.jdbc.SQDriver 4444 ```
+``` java -cp .:sqream-jdbc-4.1.jar:pjbridge.jar Server com.sqream.jdbc.SQDriver 4444 ```
 
 - Run the complementary sample check (Assuming SQreamd is up on the local machine):
 
