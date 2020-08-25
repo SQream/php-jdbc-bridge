@@ -75,7 +75,7 @@ class PJBridge {
 			return true;
 
 		default:
-			return false;
+			throw new Exception($reply[0]);;
 		}
 	}
 
@@ -99,7 +99,7 @@ class PJBridge {
 			return $reply[1];
 
 		default:
-			return false;
+			throw new Exception($reply[0]);;
 		}
 	}
 
@@ -121,7 +121,7 @@ class PJBridge {
 			return $row;
 
 		default:
-			return false;
+			throw new Exception($reply[0]);;
 		}
 	}
 
@@ -134,7 +134,7 @@ class PJBridge {
 		case 'ok':
 			return true;
 		default:
-			return false;
+			throw new Exception($reply[0]);;
 		}
 	}
 }

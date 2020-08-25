@@ -10,21 +10,26 @@
     if(!$result){
         die("Failed to connect");
     }       
-
+    /*
     // Create table
     $cursor = $conn->exec("create or replace table test (x int)");
 
     // Insert   
     $cursor = $conn->exec("insert into test values (5), (6)");
-
     // Get data back
     $cursor = $conn->exec("select * from test");
     while($row = $conn->fetch_array($cursor)){
         print_r($row);
     }
     $conn->free_result($cursor);
+    //*/
 
     // Check timeout
-    $cursor = $conn->exec("select sleep(10)", 3);
+    $cursor = $conn->exec("select * from big", 3);
+    while($row = $conn->fetch_array($cursor)){
+        print_r($row);
+    }
+    $conn->free_result($cursor);
+    echo "bla";
 ?>
 
