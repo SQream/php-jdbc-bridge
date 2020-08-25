@@ -37,8 +37,8 @@ This is a Java ServerSocket that can be operated from PHP code. The Java code th
     }
     $conn->free_result($cursor);
 
-    // Check timeout
-    $cursor = $conn->exec("select sleep(10)", 3);
+    // Timed query - use 2nd parameter to exec() to pass a timeout in seconds
+    $cursor = $conn->exec("select * from huge_table", 3);
 ?>
 
 
